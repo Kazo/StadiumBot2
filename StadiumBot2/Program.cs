@@ -93,7 +93,7 @@ namespace StadiumBot2
 
                     case 0x07://Free Battle Setup
                         {
-                            switch(Project64Watch.Read8(0xAA6F3))
+                            switch (Project64Watch.Read8(0xAA6F3))
                             {
                                 case 0x0C://1P
                                     {
@@ -134,7 +134,7 @@ namespace StadiumBot2
 
                                 default:
                                     {
-                                        switch(Project64Watch.Read8(0xAA8DB))
+                                        switch (Project64Watch.Read8(0xAA8DB))
                                         {
                                             case 0x00://Choose Entry
                                             case 0x10://Anything Goes
@@ -233,12 +233,12 @@ namespace StadiumBot2
 
                             if (Project64Watch.Read8(0xAA8DB) == 0xE9)//Choose Pokemon
                             {
-                                switch(Project64Watch.Read8(0xAA407))
+                                switch (Project64Watch.Read8(0xAA407))
                                 {
                                     case 0x03://Pick Pokemon
                                     case 0xD1://Pick Pokemon
                                         {
-                                            switch(cycle)
+                                            switch (cycle)
                                             {
                                                 case 0x00:
                                                     {
@@ -301,10 +301,9 @@ namespace StadiumBot2
 
                 Project64Watch.SendInput(1, input1);
                 Project64Watch.SendInput(2, input2);
-                Thread.Sleep(200);
+                Thread.Sleep(250);
             }
         }
-
 
         static void InjectTeams()
         {
@@ -351,7 +350,7 @@ namespace StadiumBot2
                 if (!oldboxstring.SequenceEqual(boxstring))
                 {
                     Array.Copy(boxstring, oldboxstring, 0x50);
-                    Console.WriteLine(Encoding.UTF8.GetString(boxstring));
+                    Console.WriteLine(Encoding.UTF8.GetString(boxstring).Replace("\0", ""));
                 }
             }
         }
@@ -368,7 +367,7 @@ namespace StadiumBot2
                 Offset = 0x1DD27D;
             }
 
-            switch(Project64Watch.Read16(Offset))
+            switch (Project64Watch.Read16(Offset))
             {
                 case 0x0101://Attack / Switch / Run
                     {
