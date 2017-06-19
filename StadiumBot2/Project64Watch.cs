@@ -18,7 +18,18 @@ namespace StadiumBot2
         static UInt32 sSize;
         static UInt32 sAddress;
 
-        static void SendCommand(UInt32 command)
+        public static void SendCommand(UInt32 command, UInt32 parameter)
+        {
+            sCommand = (0x04 << 0x18) + command;
+            sSize = parameter;
+            Byte[] sBuffer = new Byte[sSize + 0x0C];
+            Array.Copy(BitConverter.GetBytes(pMagic), 0x00, sBuffer, 0x00, 0x04);
+            Array.Copy(BitConverter.GetBytes(sCommand), 0x00, sBuffer, 0x04, 0x04);
+            Array.Copy(BitConverter.GetBytes(sSize), 0x00, sBuffer, 0x08, 0x04);
+            SendPacket(sBuffer);
+        }
+
+        public static void SendCommand(UInt32 command)
         {
             sCommand = (0x04 << 0x18) + command;
             sSize = 0x00;

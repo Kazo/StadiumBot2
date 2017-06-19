@@ -49,5 +49,9 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>XCOPY "$(SolutionDir)\SSD2" "$(TargetDir)\SSD2\" /S</PreBuildEvent>
+  </PropertyGroup>
 </Project>

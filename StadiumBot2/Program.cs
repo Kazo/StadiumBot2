@@ -9,7 +9,7 @@ namespace StadiumBot2
 {
     class Program
     {
-        static Byte[] oldboxstring = new Byte[0x50];
+        static Byte[] oldboxstring = new Byte[0x80];
         static Random rand = new Random();
 
         static void Main(string[] args)
@@ -35,7 +35,6 @@ namespace StadiumBot2
             }
 
             Project64Watch.Connect();
-
             while (true)
             {
                 input1 = 0;
@@ -285,7 +284,7 @@ namespace StadiumBot2
 
                             if (Project64Watch.Read8(0x147D61) != 0x00)//1P Wins!
                             {
-                                Console.Write("\n1P Wins!\n");
+                                Console.WriteLine("\n1P Wins!\n");
                                 Project64Watch.Write8(0x147D61, 0x00);
                                 InjectTeams();
                             }
@@ -344,13 +343,21 @@ namespace StadiumBot2
         {
             Byte[] boxstring;
 
-            if ((Project64Watch.Read8(0x1E1DF8) >= 0x20) && Project64Watch.Read8(0x1E1DF8) <= 0x7E)
+            if (Project64Watch.Read8(0x1E1DF8) != 0x00)
             {
-                boxstring = Project64Watch.Read(0x1E1DF8, 0x50);
+                boxstring = Project64Watch.Read(0x1E1DF8, 0x80);
                 if (!oldboxstring.SequenceEqual(boxstring))
                 {
-                    Array.Copy(boxstring, oldboxstring, 0x50);
+                    Array.Copy(boxstring, oldboxstring, 0x80);
                     Console.WriteLine(Encoding.UTF8.GetString(boxstring).Replace("\0", ""));
+                    if(Project64Watch.Read8(0x1E1E78) != 0x00)
+                    {
+                        Console.WriteLine(Encoding.UTF8.GetString(Project64Watch.Read(0x1E1E78, 0x80)).Replace("\0", ""));
+                        if (Project64Watch.Read8(0x1E1EF8) != 0x00)
+                        {
+                            Console.WriteLine(Encoding.UTF8.GetString(Project64Watch.Read(0x1E1EF8, 0x80)).Replace("\0", ""));
+                        }
+                    }
                 }
             }
         }
